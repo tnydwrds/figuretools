@@ -37,6 +37,8 @@ import sys
 # -----------------------------------------------------------------------------
 dist_directory = 'dist'
 package_directories = []
+exclude_files = [__file__]
+exclude_patterns = []
 
 
 # -----------------------------------------------------------------------------
@@ -85,6 +87,12 @@ def do_sdist():
         build_pd = os.path.join(temp_build_directory, pd)
         if not os.path.exists(build_pd):
             os.makedirs(build_pd)
+
+    # Remove excluded files from distributable_files.
+    for ep in exclude_patterns:
+        exclude_files.extend(glob.glob(ep))
+    for ef in exclude_files:
+        distributable_files.remove(ef)
 
     # Move distributable files to our build directory.
     for df in distributable_files:
