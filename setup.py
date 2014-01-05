@@ -73,12 +73,12 @@ def do_sdist():
     os.mkdir(temp_build_directory)
 
     # Running list of files to package. Starting with modules in current dir.
-    files_to_package = glob.glob('*.py')
+    distributable_files = glob.glob('*.py')
 
     for pd in package_directories:
         # Add all package modules.
         py_pathname = os.path.join(pd, '*.py')
-        files_to_package.extend(glob.glob(py_pathname))
+        distributable_files.extend(glob.glob(py_pathname))
 
         # Create a package directory in our build directory.
         build_pd = os.path.join(temp_build_directory, pd)
@@ -86,9 +86,9 @@ def do_sdist():
             os.makedirs(build_pd)
 
     # Move distributable files to our build directory.
-    for f in files_to_package:
-        f_destination = os.path.join(temp_build_directory, f)
-        shutil.copyfile(f, f_destination)
+    for df in distributable_files:
+        df_destination = os.path.join(temp_build_directory, df)
+        shutil.copyfile(df, df_destination)
 
     # Remember to clean up the build directory.
     #shutil.rmtree(temp_build_directory)
