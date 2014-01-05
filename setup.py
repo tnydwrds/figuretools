@@ -39,6 +39,7 @@ dist_directory = 'dist'
 package_directories = []
 exclude_files = [__file__]
 exclude_patterns = []
+include_files = []
 
 
 # -----------------------------------------------------------------------------
@@ -94,6 +95,10 @@ def do_sdist():
             exclude_files.extend(glob.glob(ep))
     for ef in exclude_files:
         distributable_files.remove(ef)
+
+    # Add explicitly included files to distributable_files.
+    # TODO: Mabye add include_pattern as well?
+    distributable_files.extend(include_files)
 
     # Move distributable files to our build directory.
     for df in distributable_files:
