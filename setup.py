@@ -26,6 +26,7 @@
 # ***** END GPL LICENCE BLOCK *****
 #
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
+import glob
 import os
 import shutil
 import sys
@@ -35,6 +36,7 @@ import sys
 # You can changes stuffs here.
 # -----------------------------------------------------------------------------
 dist_directory = 'dist'
+package_directories = []
 
 
 # -----------------------------------------------------------------------------
@@ -69,6 +71,24 @@ def do_sdist():
     if os.path.exists(temp_build_directory):
         shutil.rmtree(temp_build_directory)
     os.mkdir(temp_build_directory)
+
+    # Running list of files to package. Starting with modules in current dir.
+    files_to_package = glob.glob('*.py')
+
+    for pd in package_directories:
+        # Add all package modules.
+        py_pathname = os.path.join(pd, '*.py')
+        files_to_package.extend(glob.glob(py_pathname))
+
+        # Create a package directory in our build directory.
+        build_pd = os.path.join(temp_build_directory, pd)
+        if not os.path.exists(build_pd):
+            os.makedirs(build_pd)
+
+    # Move distributable files to our build directory.
+    for f in files_to_package:
+        f_destination = os.path.join(temp_build_directory, f)
+        shutil.copyfile(f, f_destination)
 
     # Remember to clean up the build directory.
     #shutil.rmtree(temp_build_directory)
