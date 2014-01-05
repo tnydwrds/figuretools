@@ -89,8 +89,9 @@ def do_sdist():
             os.makedirs(build_pd)
 
     # Remove excluded files from distributable_files.
-    for ep in exclude_patterns:
-        exclude_files.extend(glob.glob(ep))
+    if exclude_patterns:
+        for ep in exclude_patterns:
+            exclude_files.extend(glob.glob(ep))
     for ef in exclude_files:
         distributable_files.remove(ef)
 
