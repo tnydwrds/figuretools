@@ -75,7 +75,7 @@ def do_sdist():
         shutil.rmtree(temp_build_directory)
     os.makedirs(temp_build_directory)
 
-    # Running list of files to package. Starting with modules in current dir.
+    # Running list of distributable files. Starting with modules in current dir.
     distributable_files = glob.glob('*.py')
 
     for pd in package_directories:
