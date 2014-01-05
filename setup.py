@@ -67,10 +67,11 @@ def do_sdist():
         os.makedirs(dist_directory)
 
     # Create a clean temporary build directory.
-    temp_build_directory = 'build_tmp'
+    package_name = os.path.basename(os.path.split(os.path.realpath(__file__))[0])
+    temp_build_directory = os.path.join('build_tmp', package_name)
     if os.path.exists(temp_build_directory):
         shutil.rmtree(temp_build_directory)
-    os.mkdir(temp_build_directory)
+    os.makedirs(temp_build_directory)
 
     # Running list of files to package. Starting with modules in current dir.
     distributable_files = glob.glob('*.py')
