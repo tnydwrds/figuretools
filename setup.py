@@ -27,6 +27,7 @@
 #
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 import os
+import shutil
 import sys
 
 # -----------------------------------------------------------------------------
@@ -62,6 +63,16 @@ def do_sdist():
     """Make source distribution of package"""
     if not os.path.exists(dist_directory):
         os.makedirs(dist_directory)
+
+    # Create a clean temporary build directory.
+    temp_build_directory = 'build_tmp'
+    if os.path.exists(temp_build_directory):
+        shutil.rmtree(temp_build_directory)
+    os.mkdir(temp_build_directory)
+
+    # Remember to clean up the build directory.
+    #shutil.rmtree(temp_build_directory)
+
 
 def main(args):
     parser = ArgumentParser(
