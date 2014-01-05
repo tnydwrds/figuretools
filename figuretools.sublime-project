@@ -1,0 +1,32 @@
+{
+    "folders":
+    [
+        {
+            "path": "."
+        }
+    ],
+
+    "settings":
+    {
+        // Columns in which to display vertical rulers
+        "rulers": [80],
+
+        // The number of spaces a tab is considered equal to
+        "tab_size": 4,
+
+        // Set to true to removing trailing white space on save
+        "trim_trailing_white_space_on_save": true,
+
+        // Set to true to removing trailing white space on save
+        "trim_trailing_white_space_on_save": true,
+
+        // Set to true to ensure the last line of the file ends in a newline
+        // character when saving
+        "ensure_newline_at_eof_on_save": true,
+
+        // folder_exclude_patterns and file_exclude_patterns control which files
+        // are listed in folders on the side bar. These can also be set on a per-
+        // project basis.
+        "file_exclude_patterns": ["*.pyc", "*.pyo", "*.obj", ".DS_Store"]
+    }
+}
