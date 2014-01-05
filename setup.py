@@ -26,9 +26,20 @@
 # ***** END GPL LICENCE BLOCK *****
 #
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
+import os
 import sys
 
+# -----------------------------------------------------------------------------
+# Settings
+# You can changes stuffs here.
+# -----------------------------------------------------------------------------
+dist_directory = 'dist'
 
+
+# -----------------------------------------------------------------------------
+# Guts
+# You shouldn't change stuffs here. Unless its broken or something.
+# -----------------------------------------------------------------------------
 description = """
 Create a Blender friendly Python distribution.
 
@@ -48,7 +59,9 @@ Commands:
 available_commands = ['sdist']
 
 def do_sdist():
-    print('Performing sdist command.')
+    """Make source distribution of package"""
+    if not os.path.exists(dist_directory):
+        os.makedirs(dist_directory)
 
 def main(args):
     parser = ArgumentParser(
