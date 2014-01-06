@@ -26,7 +26,8 @@
 #
 import bpy
 from bpy.props import StringProperty
-from bpy_extras.io_utils import ImportHelper
+from bpy_extras.io_utils import ImportHelper, axis_conversion
+import os.path
 
 class DSONImporter(bpy.types.Operator, ImportHelper):
     """Load a DAZ DSON file"""
@@ -37,6 +38,34 @@ class DSONImporter(bpy.types.Operator, ImportHelper):
     filter_glob = StringProperty(default='*.duf;*.dsf', options={'HIDDEN'})
 
     def execute(self, context):
-        print('FigureTools: Importing %s' % self.filepath)
+        dson_file_path = self.filepath
+        print('FigureTools: Importing %s' % dson_file_path)
+
+        # Current importer loads geometry from an obj file, so we look for one
+        # with the same name as the .duf file.
+        obj_file_path = os.path.splitext(dson_file_path)[0] + '.obj'
+
+        # TODO: Validate existence of obj file and warn if it doesn't exist.
+        #       Need research the 'Blender' conventions for notifications.
+
+        print('FigureTools: Importing %s' % obj_file_path)
+        self._load_obj(context, obj_file_path)
 
         return {'FINISHED'}
+
+    def _load_obj(self, context, obj_file_path):
+        # We just use Blender's existing obj importer. The obj should not have
+        # a corresponding .mtl file, since we will get materials from the dson
+        # file. Didn't see a way to make mtl loading optional, so we just hope
+        # there isn't a mtl file loaded and there are issues materials.
+        from io_scene_obj.import_obj import load as load_obj
+
+        # Blender and DAZStudio use different axis orientations, so adjust obj
+        # to work with Blender (same as native obj importer).
+        global_matrix = axis_conversion(
+            from_forward='-Z',
+            from_up='Y').to_4x4()
+        load_obj(self, context, obj_file_path,
+            use_split_groups=False,
+            use_image_search=False,
+            global_matrix=global_matrix)
