@@ -106,8 +106,15 @@ def do_sdist():
         df_destination = os.path.join(working_directory, df)
         shutil.copyfile(df, df_destination)
 
+    # Make the zip file.
+    shutil.make_archive(
+        base_name=os.path.join(dist_directory, package_name),
+        format='zip',
+        root_dir=build_directory,
+        base_dir=package_name)
+
     # Remember to clean up the build directory.
-    #shutil.rmtree(build_directory)
+    shutil.rmtree(build_directory)
 
 
 def main(args):
