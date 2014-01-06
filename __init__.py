@@ -36,10 +36,15 @@ bl_info = {
     "location": "File > Import-Export"
 }
 
+def add_to_import_menu(self, context):
+    self.layout.operator(dson.DSONImporter.bl_idname, text='DAZ DSON (.duf/.dsf)')
+
 def register():
     bpy.utils.register_class(dson.DSONImporter)
+    bpy.types.INFO_MT_file_import.append(add_to_import_menu)
     print('FigureTools: Addon registered')
 
 def unregister():
     bpy.utils.unregister_class(dson.DSONImporter)
+    bpy.types.INFO_MT_file_import.remove(add_to_import_menu)
     print('FigureTools: Addon unregistered')
