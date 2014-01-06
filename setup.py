@@ -37,7 +37,7 @@ import re
 # You can changes stuffs here.
 # -----------------------------------------------------------------------------
 dist_directory = 'dist'
-package_directories = []
+package_directories = ['dson']
 exclude_files = [__file__]
 exclude_patterns = []
 include_files = []

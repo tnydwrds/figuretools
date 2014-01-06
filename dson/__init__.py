@@ -25,21 +25,18 @@
 # ***** END GPL LICENCE BLOCK *****
 #
 import bpy
-from . import dson
+from bpy.props import StringProperty
+from bpy_extras.io_utils import ImportHelper
 
-bl_info = {
-    "name": "FigureTools",
-    "author": "Tony Edwards (tnydwrds)",
-    "version": (0, 0, 1),
-    "blender": (2, 69, 0),
-    "category": "Import-Export",
-    "location": "File > Import-Export"
-}
+class DSONImporter(bpy.types.Operator, ImportHelper):
+    """Load a DAZ DSON file"""
+    bl_idname = 'import_scene.dson'
+    bl_label = 'Import DSON'
 
-def register():
-    bpy.utils.register_class(dson.DSONImporter)
-    print('FigureTools: Addon registered')
+    filename_ext = '.duf'
+    filter_glob = StringProperty(default='*.duf;*.dsf', options={'HIDDEN'})
 
-def unregister():
-    bpy.utils.unregister_class(dson.DSONImporter)
-    print('FigureTools: Addon unregistered')
+    def execute(self, context):
+        print('FigureTools: Importing %s' % self.filepath)
+
+        return {'FINISHED'}
