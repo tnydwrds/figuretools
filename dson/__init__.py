@@ -27,6 +27,8 @@
 import bpy
 from bpy.props import StringProperty
 from bpy_extras.io_utils import ImportHelper, axis_conversion
+import gzip
+import json
 import os.path
 
 class DSONImporter(bpy.types.Operator, ImportHelper):
@@ -39,7 +41,6 @@ class DSONImporter(bpy.types.Operator, ImportHelper):
 
     def execute(self, context):
         dson_file_path = self.filepath
-        print('FigureTools: Importing %s' % dson_file_path)
 
         # Current importer loads geometry from an obj file, so we look for one
         # with the same name as the .duf file.
@@ -51,7 +52,23 @@ class DSONImporter(bpy.types.Operator, ImportHelper):
         print('FigureTools: Importing %s' % obj_file_path)
         self._load_obj(context, obj_file_path)
 
+        print('FigureTools: Loading %s' % dson_file_path)
+        self.dson = self._load_dson(dson_file_path)
+
         return {'FINISHED'}
+
+    def _load_dson(self, dson_file_path):
+        dson_file = None
+
+        # DSON files are optionally compressed, so we try reading it as
+        # uncompressed first and then compressed.
+        try:
+            dson_file = json.load(open(dson_file_path, 'r'))
+        except ValueError:
+            dson_bytes = gzip.open(dson_file_path, 'r').read()
+            dson_file = json.loads(dson_bytes.decode('utf-8'))
+
+        return dson_file
 
     def _load_obj(self, context, obj_file_path):
         # We just use Blender's existing obj importer. The obj should not have
