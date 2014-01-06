@@ -71,10 +71,11 @@ def do_sdist():
 
     # Create a clean temporary build directory.
     package_name = os.path.basename(os.path.split(os.path.realpath(__file__))[0])
-    temp_build_directory = os.path.join('build_tmp', package_name)
-    if os.path.exists(temp_build_directory):
-        shutil.rmtree(temp_build_directory)
-    os.makedirs(temp_build_directory)
+    build_directory = 'build_tmp'
+    working_directory = os.path.join(build_directory, package_name)
+    if os.path.exists(build_directory):
+        shutil.rmtree(build_directory)
+    os.makedirs(working_directory)
 
     # Running list of distributable files. Starting with modules in current dir.
     distributable_files = glob.glob('*.py')
@@ -84,8 +85,8 @@ def do_sdist():
         py_pathname = os.path.join(pd, '*.py')
         distributable_files.extend(glob.glob(py_pathname))
 
-        # Create a package directory in our build directory.
-        build_pd = os.path.join(temp_build_directory, pd)
+        # Create a package directory in our working directory.
+        build_pd = os.path.join(working_directory, pd)
         if not os.path.exists(build_pd):
             os.makedirs(build_pd)
 
@@ -100,13 +101,13 @@ def do_sdist():
     # TODO: Mabye add include_pattern as well?
     distributable_files.extend(include_files)
 
-    # Move distributable files to our build directory.
+    # Move distributable files to our working directory.
     for df in distributable_files:
-        df_destination = os.path.join(temp_build_directory, df)
+        df_destination = os.path.join(working_directory, df)
         shutil.copyfile(df, df_destination)
 
     # Remember to clean up the build directory.
-    #shutil.rmtree(temp_build_directory)
+    #shutil.rmtree(build_directory)
 
 
 def main(args):
