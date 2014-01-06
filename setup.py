@@ -30,6 +30,7 @@ import glob
 import os
 import shutil
 import sys
+import re
 
 # -----------------------------------------------------------------------------
 # Settings
@@ -106,9 +107,15 @@ def do_sdist():
         df_destination = os.path.join(working_directory, df)
         shutil.copyfile(df, df_destination)
 
+    # Get addon version number.
+    version_re = '["\']version["\']\s*?:\s*?\(\s*?(\d+?)\s*?,\s*?(\d+?)\s*?,\s*?(\d+?)\s*?\)'
+    version = re.search(version_re, open('__init__.py', 'r').read())
+    version = '.'.join(version.groups()) if version else '0.0.0'
+
     # Make the zip file.
+    zip_file_name = '%s-%s' % (package_name, version)
     shutil.make_archive(
-        base_name=os.path.join(dist_directory, package_name),
+        base_name=os.path.join(dist_directory, zip_file_name),
         format='zip',
         root_dir=build_directory,
         base_dir=package_name)
