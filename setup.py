@@ -38,7 +38,7 @@ class blender_dist(build_py):
     """ """
 
     description = \
-    '"build" pure Python modules (copy to build directory) and zip it"
+    '"build" pure Python modules (copy to build directory) and zip it"'
 
     def run(self):
         build_dir = self.build_lib = 'tmp_build'
