@@ -24,28 +24,7 @@
 #
 # ***** END GPL LICENCE BLOCK *****
 #
-import bpy
-from . import dson
-from . utils import ftlog
+from extensions_framework import log
 
-bl_info = {
-    "name": "FigureTools",
-    "author": "Tony Edwards (tnydwrds)",
-    "version": (0, 0, 1),
-    "blender": (2, 69, 0),
-    "category": "Import-Export",
-    "location": "File > Import-Export"
-}
-
-def add_to_import_menu(self, context):
-    self.layout.operator(dson.DSONImporter.bl_idname, text='DAZ DSON (.duf/.dsf)')
-
-def register():
-    bpy.utils.register_class(dson.DSONImporter)
-    bpy.types.INFO_MT_file_import.append(add_to_import_menu)
-    ftlog('Addon registered')
-
-def unregister():
-    bpy.utils.unregister_class(dson.DSONImporter)
-    bpy.types.INFO_MT_file_import.remove(add_to_import_menu)
-    ftlog('Addon unregistered')
+def ftlog(message):
+    log(message, module_name='FigureTools')

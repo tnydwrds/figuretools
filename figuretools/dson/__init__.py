@@ -31,6 +31,8 @@ import gzip
 import json
 import os.path
 
+from .. utils import ftlog
+
 class DSONImporter(bpy.types.Operator, ImportHelper):
     """Load a DAZ DSON file"""
     bl_idname = 'import_scene.dson'
@@ -49,10 +51,10 @@ class DSONImporter(bpy.types.Operator, ImportHelper):
         # TODO: Validate existence of obj file and warn if it doesn't exist.
         #       Need research the 'Blender' conventions for notifications.
 
-        print('FigureTools: Importing %s' % obj_file_path)
+        ftlog('Importing %s' % obj_file_path)
         self._load_obj(context, obj_file_path)
 
-        print('FigureTools: Loading %s' % dson_file_path)
+        ftlog('Loading %s' % dson_file_path)
         self.dson = self._load_dson(dson_file_path)
 
         return {'FINISHED'}
