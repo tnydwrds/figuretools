@@ -38,7 +38,6 @@ class DSONImporter(bpy.types.Operator, ImportHelper):
     bl_idname = 'import_scene.dson'
     bl_label = 'Import DSON'
 
-    filename_ext = '.duf'
     filter_glob = StringProperty(default='*.duf;*.dsf', options={'HIDDEN'})
 
     def execute(self, context):
