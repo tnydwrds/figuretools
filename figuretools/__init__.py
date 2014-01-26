@@ -25,7 +25,9 @@
 # ***** END GPL LICENCE BLOCK *****
 #
 import bpy
+
 from . import dson
+from . import prefs
 from . utils import ftlog
 
 bl_info = {
@@ -41,11 +43,11 @@ def add_to_import_menu(self, context):
     self.layout.operator(dson.DSONImporter.bl_idname, text='DAZ DSON (.duf/.dsf)')
 
 def register():
-    bpy.utils.register_class(dson.DSONImporter)
+    bpy.utils.register_module(__name__)
     bpy.types.INFO_MT_file_import.append(add_to_import_menu)
     ftlog('Addon registered')
 
 def unregister():
-    bpy.utils.unregister_class(dson.DSONImporter)
+    bpy.utils.unregister_module(__name__)
     bpy.types.INFO_MT_file_import.remove(add_to_import_menu)
     ftlog('Addon unregistered')
