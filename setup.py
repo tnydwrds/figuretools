@@ -32,7 +32,7 @@ import re
 from shutil import make_archive, rmtree
 
 # Packages, data and additional files.
-packages = ['figuretools', 'figuretools.dson']
+packages = ['figuretools']
 
 class blender_dist(build_py):
     """ """

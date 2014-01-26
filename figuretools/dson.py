@@ -31,7 +31,7 @@ import gzip
 import json
 import os.path
 
-from .. utils import ftlog
+from . utils import ftlog
 
 class DSONImporter(bpy.types.Operator, ImportHelper):
     """Load a DAZ DSON file"""
